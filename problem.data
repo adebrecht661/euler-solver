@@ -1,0 +1,65 @@
+&ProblemData
+! Defaults given in ()
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Time and space information !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+starttime = 0.0         ! starting time of simulation (must be greater than or equal to 0)
+finaltime = 1.0         ! final time of simulation (must be greater than starttime)
+frames = 100		! number of frames to output
+
+nDim = 1                ! number of dimensions for the problem - 2D and 3D only implemented for Godunov Euler solver
+
+xL = 0   		! x minimum value
+xR = 1.0		! x maximum value
+xcells = 100		! x resolution
+yL = -1.0		! y minimum value
+yR = 1.0		! y maximum value
+ycells = 100		! y resolution
+zL = -1.0		! z minimum value
+zR = 1.0		! z maximum value
+zcells = 100		! z resolution
+
+!!!!!!!!!!!!!!!!!!
+! Problem set up !
+!!!!!!!!!!!!!!!!!!
+IC = 2                  ! Initial conditions - correspond to test number in Toro for exact and Godunov Euler solvers; for single-variable Godunov solver, [1] = Gaussian, alpha height, beta inverse variance; [2] = square wave; [3] = shock test; for 2D and 3D, [1] = cylindrical/spherical explosion
+FluxScheme = 2          ! Scheme for flux calculation - [1] = Godunov upwind method, [2] = WAF method (1)
+
+!!!!!!!!!!!!!!!!!!!
+! Euler equations !
+!!!!!!!!!!!!!!!!!!!
+cov = 0.0               ! Covolume constant - 0 is equivalent to ideal gas
+gamma = 1.4             ! Ratio of specific heats
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Options for Newton-Raphson solver !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+tol = 1d-6              ! tolerance for exact Riemann solutions
+maxiter = 15            ! Maximum number of iterations for each Newton-Raphson solution
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Options for Godunov solver !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+BC = 2                  ! Boundary conditions for problem - [1] = periodic, [2] = transparent, [3] = reflective; (2)
+CFL = 0.7               ! CFL constant (Determines time step)
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Single-variable Godunov solver !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+alpha = 1.0             ! Height of Gaussian IC
+beta = 8.0              ! ~Inverse variance of Gaussian IC
+Eq = 1                  ! flux equation for Godunov program - [1] = advection, [2] = inviscid Burgers
+advectionConst = 1.0    ! Constant for linear advection equation
+
+!!!!!!!!!!!!!!!!!!!!!!!!
+! Godunov Euler solver !
+!!!!!!!!!!!!!!!!!!!!!!!!
+RiemannSolver = 5       ! Riemann solver to use - [1] = exact, [2] = two-shock approximation, [3] = adaptive non-iterating approximation method, [4] = HLL, [5] = HLLC, [6] = Roe
+Q = 2.0                 ! Ratio of pressures below which adaptive method uses primitive variable approximation
+
+!!!!!!!!!!!!!!!!!!!
+! Parallelization !
+!!!!!!!!!!!!!!!!!!!
+lthreading = F          ! Use multithreading? Set to true AND compile with OpenMP enabled (F)
+num_threads = 1         ! If threading is enabled, sets the number of threads to use in any parallel sections. Using more threads than you have cores will likely slow the program. Only used in 2D and 3D. (1)
+/
